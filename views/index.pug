@@ -3,28 +3,41 @@ extends layout
 block content
   h2= title
   div.row
-    div.col-lg-3#app
-      |{{ message }}
-    //div.col-lg-6
+    div.col-lg-3
+    div.col-lg-6
       div.container-fluid
         nav.navbar-expand-lg.navbar.navbar-light(style="background-color: #e3f2fd")
           ul.navbar-nav.mr-auto.mt-2.mt-lg-0
             li.nav-item
-              a.nav-link.active(href="#grid-template") Channels
+              a.nav-link.active(href="#firstTable") Channels
             li.nav-item
               a.nav-link(href="#cart") Cart
           form.form-inline.my-2.my-lg-0
             input.form-control.mr-sm-2(type="search", placeholder="Search", aria-label="search")
-
-    //script#grid-template(type='text/x-template')
-      table
-        thead
-          tr
-            th(v-for="key in columns", @click="sortBy(key)", :class="{ active: sortKey == key }")
-                |{{ key | capitalize }}
-            span.arrow(:class="sortOrders[key] > 0 ? 'asc' : 'dsc'")
-        tbody
-          tr(v-for="entry in filteredData")
-            td(v-for="key in columns")
-              |{{entry[key]}}
+        br
+        table#firstTable(style='width:100%')
+          thead
+            tr
+              th ID
+                span.arrow.asc
+              th Name
+              th Phone
+              th Profession
+          tbody
+            tr(v-for="row in rows")
+              td {{row.id}}
+              td {{row.name}}
+              td {{row.phone}}
+              td {{row.profession}}
+      //script#grid-template(type='text/x-template')
+        table
+          thead
+            tr
+              th(v-for="key in columns", @click="sortBy(key)", :class="{ active: sortKey == key }")
+                  |{{ key | capitalize }}
+              span.arrow(:class="sortOrders[key] > 0 ? 'asc' : 'dsc'")
+          tbody
+            tr(v-for="entry in filteredData")
+              td(v-for="key in columns")
+                |{{entry[key]}}
 
