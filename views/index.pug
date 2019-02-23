@@ -1,43 +1,49 @@
 extends layout
-
 block content
   h2= title
-  div.row
+  div.row#app
     div.col-lg-3
     div.col-lg-6
       div.container-fluid
-        nav.navbar-expand-lg.navbar.navbar-light(style="background-color: #e3f2fd")
+        nav.navbar-expand-lg.navbar.navbar-light
           ul.navbar-nav.mr-auto.mt-2.mt-lg-0
             li.nav-item
-              a.nav-link.active(href="#firstTable") Channels
+              a.nav-link(href="#channels",
+                        :class="{active: !cartActive}",
+                        @click="cartActive=false") Channels
             li.nav-item
-              a.nav-link(href="#cart") Cart
+              a.nav-link(href="#cart",
+                        :class="{active: cartActive}",
+                        @click="cartActive=true") Cart
           form.form-inline.my-2.my-lg-0
             input.form-control.mr-sm-2(type="search", placeholder="Search", aria-label="search")
         br
-        table#firstTable(style='width:100%')
+        div#channels
+          table(style='width:100%', v-show="!cartActive")
+            thead
+              tr
+                th(v-for="col in columns", @click="sortColumns('channels', col)") {{ col }}
+                  i(class="fa fa-fw",
+                    :class="col != sortColumn ? 'fa-sort' : isAscending ? 'fa-sort-asc' : 'fa-sort-desc'")
+            tbody
+              tr(v-for="row in get_rows('channels')")
+                td {{row.id}}
+                td {{row.name}}
+                td {{row.phone}}
+                td {{row.profession}}
+          div.pagination
+            div.number(v-for="i in num_pages('channels')",
+                      :class="[i == currentPage ? 'active' : '']"
+                      @click="change_page(i)") {{i}}
+        //div#cart
+          table(style='width:100%', v-show="cartActive")
           thead
             tr
-              th ID
-                span.arrow.asc
-              th Name
-              th Phone
-              th Profession
+              th(v-for="col in columns", @click="sortColumns('cart', col)") {{ col }}
+                i(class="fa fa-fw",
+                //:class="col != sortColumn ? 'fa-sort' : isAscending ? 'fa-sort-asc' : 'fa-sort-desc'")
           tbody
-            tr(v-for="row in rows")
+            tr(v-for="row in cart.rows")
               td {{row.id}}
               td {{row.name}}
               td {{row.phone}}
-              td {{row.profession}}
-      //script#grid-template(type='text/x-template')
-        table
-          thead
-            tr
-              th(v-for="key in columns", @click="sortBy(key)", :class="{ active: sortKey == key }")
-                  |{{ key | capitalize }}
-              span.arrow(:class="sortOrders[key] > 0 ? 'asc' : 'dsc'")
-          tbody
-            tr(v-for="entry in filteredData")
-              td(v-for="key in columns")
-                |{{entry[key]}}
-
