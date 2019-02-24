@@ -8,25 +8,25 @@ block content
         nav.navbar-expand-lg.navbar.navbar-light
           ul.navbar-nav.mr-auto.mt-2.mt-lg-0
             li.nav-item
-              a.nav-link(href="#channels",
+              a.nav-link(href="#data",
                         :class="{active: !cartActive}",
                         @click="cartActive=false") Channels
             li.nav-item
-              a.nav-link(href="#cart",
+              a.nav-link(href="#data",
                         :class="{active: cartActive}",
                         @click="cartActive=true") Cart
           form.form-inline.my-2.my-lg-0
             input.form-control.mr-sm-2(type="search", placeholder="Search", aria-label="search")
         br
-        div#channels
-          table(style='width:100%', v-show="!cartActive")
+        div#data
+          table(style='width:100%')
             thead
               tr
-                th(v-for="col in columns", @click="sortColumns('channels', col)") {{ col }}
+                th(v-for="col in columns", @click="sortColumns(col)") {{ col }}
                   i(class="fa fa-fw",
                     :class="col != sortColumn ? 'fa-sort' : isAscending ? 'fa-sort-asc' : 'fa-sort-desc'")
             tbody
-              tr(v-for="row in get_rows('channels')")
+              tr(v-for="row in get_rows()")
                 td {{row.id}}
                 td {{row.name}}
                 td {{row.phone}}

@@ -27,7 +27,7 @@ new Vue({
         elementsPerPage: 3
     },
     methods: {
-        "sortColumns" : function (cartOrChannels: string, col: string) {
+        "sortColumns" : function (col: string) {
             if (this.sortColumn === col) {
                 this.isAscending = !this.isAscending;
             } else {
@@ -36,11 +36,8 @@ new Vue({
             }
 
             let isAscending = this.isAscending,
-                data: any = this.channels;
-            if (cartOrChannels.toLowerCase() == 'cart') {
-                data = this.cart;
-            }
-            data.rows.sort((a: any, b: any) => {
+                data = (this.cartActive ? this.cart : this.channels).rows;
+            data.sort((a: any, b: any) => {
                 if (a[col] > b[col]) {
                     return isAscending ? 1 : -1;
                 } else if (a[col] < b[col]) {
@@ -49,15 +46,15 @@ new Vue({
                 return 0;
             });
         },
-        "num_pages": function num_pages(cartOrChannels: string) {
-            let data = cartOrChannels == 'cart' ? this.cart : this.channels;
-            return Math.ceil(data.rows.length / this.elementsPerPage);
+        "num_pages": function num_pages() {
+            let data = (this.cartActive ? this.cart : this.channels).rows;
+            return Math.ceil(data.length / this.elementsPerPage);
         },
-        "get_rows": function get_rows(cartOrChannels: string) {
+        "get_rows": function get_rows() {
             let start = (this.currentPage-1) * this.elementsPerPage;
             let end = start + this.elementsPerPage;
-            let data = cartOrChannels == 'cart' ? this.cart : this.channels;
-            return data.rows.slice(start, end);
+            let data = (this.cartActive ? this.cart : this.channels).rows;
+            return data.slice(start, end);
         },
         "change_page": function change_page(page: number) {
             this.currentPage = page;
