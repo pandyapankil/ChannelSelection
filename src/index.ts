@@ -24,7 +24,17 @@ new Vue({
         isAscending: false,
         sortColumn: '',
         currentPage: 1,
-        elementsPerPage: 3
+        elementsPerPage: 3,
+        cartDuplicate: {
+            rows: [
+                {id: 2, name: "Ross Geller", phone: '210-684-8953', profession: 'Paleontologist'},
+            ]
+        },
+        channelsDuplicate: {
+            rows: [
+                {id: 2, name: "Ross Geller", phone: '210-684-8953', profession: 'Paleontologist'},
+            ]
+        }
     },
     methods: {
         "sortColumns" : function (col: string) {
@@ -36,7 +46,7 @@ new Vue({
             }
 
             let isAscending = this.isAscending,
-                data = (this.cartActive ? this.cart : this.channels).rows;
+                data = (this.cartActive ? this.cartDuplicate : this.channelsDuplicate).rows;
             data.sort((a: any, b: any) => {
                 if (a[col] > b[col]) {
                     return isAscending ? 1 : -1;
@@ -53,11 +63,25 @@ new Vue({
         "get_rows": function get_rows() {
             let start = (this.currentPage-1) * this.elementsPerPage;
             let end = start + this.elementsPerPage;
-            let data = (this.cartActive ? this.cart : this.channels).rows;
+            let data = (this.cartActive ? this.cartDuplicate : this.channelsDuplicate).rows;
             return data.slice(start, end);
         },
         "change_page": function change_page(page: number) {
             this.currentPage = page;
+        },
+        "activate": function (activateCart: boolean) {
+            const case1 = activateCart && !this.cartActive;
+            const case2 = (!activateCart && this.cartActive);
+            if (case1 || case2) {
+                this.isAscending = false;
+                this.sortColumn = '';
+                this.cartActive = !this.cartActive;
+                if (case1) {
+                    this.channelsDuplicate = this.channels;
+                } else {
+                    this.cartDuplicate = this.cart;
+                }
+            }
         }
     },
     computed: {

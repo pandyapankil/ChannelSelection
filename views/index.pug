@@ -10,11 +10,11 @@ block content
             li.nav-item
               a.nav-link(href="#data",
                         :class="{active: !cartActive}",
-                        @click="cartActive=false") Channels
+                        @click="activate(false)") Channels
             li.nav-item
               a.nav-link(href="#data",
                         :class="{active: cartActive}",
-                        @click="cartActive=true") Cart
+                        @click="activate(true)") Cart
           form.form-inline.my-2.my-lg-0
             input.form-control.mr-sm-2(type="search", placeholder="Search", aria-label="search")
         br
@@ -35,15 +35,3 @@ block content
             div.number(v-for="i in num_pages('channels')",
                       :class="[i == currentPage ? 'active' : '']"
                       @click="change_page(i)") {{i}}
-        //div#cart
-          table(style='width:100%', v-show="cartActive")
-          thead
-            tr
-              th(v-for="col in columns", @click="sortColumns('cart', col)") {{ col }}
-                i(class="fa fa-fw",
-                //:class="col != sortColumn ? 'fa-sort' : isAscending ? 'fa-sort-asc' : 'fa-sort-desc'")
-          tbody
-            tr(v-for="row in cart.rows")
-              td {{row.id}}
-              td {{row.name}}
-              td {{row.phone}}
