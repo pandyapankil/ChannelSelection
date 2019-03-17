@@ -7,7 +7,8 @@
     "build": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-node": "nodemon ./src/server",
-    "watch-ts": "tsc -w"
+    "watch-ts": "tsc -w",
+    "watch-all": "concurrently --kill-others \"webpack --watch\" \"tsc -w\" \"nodemon ./src/server\""
   },
   "author": "",
   "license": "ISC",
@@ -22,7 +23,8 @@
     "vue-loader": "^15.6.2",
     "vue-template-compiler": "^2.6.6",
     "webpack": "^4.29.4",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "concurrently": "^2.2.0"
   },
   "dependencies": {
     "pug": "^2.0.3"
