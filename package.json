@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-node": "nodemon ./src/server",
     "watch-ts": "tsc -w",
-    "watch-all": "concurrently --kill-others \"webpack --watch\" \"tsc -w\" \"nodemon ./src/server\""
+    "watch-all": "concurrently --kill-others \"webpack --watch\" \"tsc -w\" \"nodemon ./src/server.js\""
   },
   "author": "",
   "license": "ISC",
